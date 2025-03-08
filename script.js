@@ -76,14 +76,13 @@ let collectedSBTs = []; // Array to store collected SBTs for display
 let totalCollectedSBTs = {}; // Object to track the count of each SBT type collected
 
 function resizeCanvas() {
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = window.innerWidth * dpr;
-    canvas.height = window.innerHeight * dpr;
-    ctx.scale(dpr, dpr); // Scale for high-DPI screens
+    const height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = height;
 }
 
-// window.addEventListener("resize", resizeCanvas);
-// resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
 
 
 const bird = { x: 50, y: canvas.height / 2, width: 50, height: 50, gravity: 0.6, lift: -12, velocity: 0 };
