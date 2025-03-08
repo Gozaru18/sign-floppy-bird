@@ -125,15 +125,15 @@
     resizeCanvas();
 
     // Adjust game mechanics for mobile
-    const bird = {
-        x: 50,
-        y: canvas.height / 2,
-        width: 50,
-        height: 50,
-        gravity: isMobileDevice() ? 0.4 : 0.6, // Reduce gravity on mobile
-        lift: isMobileDevice() ? -14 : -12, // Increase lift on mobile
-        velocity: 0
-    };
+  const bird = {
+    x: 50,
+    y: canvas.height / 2,
+    width: 50,
+    height: 50,
+    gravity: isMobileDevice() ? 0.3 : 0.5, // Further reduce gravity
+    lift: isMobileDevice() ? -10 : -8, // Reduce lift for smoother control
+    velocity: 0
+};
 
     let pipes = [];
     let collectibles = [];
@@ -297,7 +297,7 @@
         }
 
         if (frame % 120 === 0) {
-            let gap = 250;
+            let gap = 300;
             let pipeHeight = Math.random() * (canvas.height / 2);
             let newPipe = {
                 x: canvas.width,
@@ -313,7 +313,7 @@
         }
 
         pipes.forEach(pipe => {
-            pipe.x -= 2.5;
+            pipe.x -= 1.5;
             if (
                 bird.x < pipe.x + pipe.width &&
                 bird.x + bird.width > pipe.x &&
@@ -394,11 +394,20 @@
         drawCollectedSBTs(); // Draw the collected SBTs at the top
     }
 
-    function gameLoop() {
-        update();
-        draw();
-        if (!gameOver) requestAnimationFrame(gameLoop);
+   let lastTime = 0;
+const frameRate = 30; // Target frame rate (e.g., 30 FPS)
+
+function gameLoop(timestamp) {
+    if (!gameOver) {
+        const deltaTime = timestamp - lastTime;
+        if (deltaTime >= 1000 / frameRate) { // Ensure the game updates at the target frame rate
+            update();
+            draw();
+            lastTime = timestamp;
+        }
+        requestAnimationFrame(gameLoop);
     }
+}
 
     function endGame() {
         gameOver = true;
