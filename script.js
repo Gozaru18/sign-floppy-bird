@@ -90,18 +90,6 @@ let gameOver = false;
 // Collection effect animation
 let collectionEffects = [];
 
-// Function to calculate dynamic pipe gap
-function getPipeGap() {
-    // Set the gap to 20% of the canvas height (adjust as needed)
-    return canvas.height * 0.2;
-}
-
-// Function to calculate dynamic pipe width
-function getPipeWidth() {
-    // Set the width to 10% of the canvas width (adjust as needed)
-    return canvas.width * 0.1;
-}
-
 function drawBird() {
     if (!avatarImages[selectedAvatar]) {
         const img = new Image();
@@ -270,11 +258,11 @@ function update(deltaTime) {
     }
 
     if (frame % 120 === 0) {
-        let gap = getPipeGap(); // Use dynamic gap size
+        let gap = 250;
         let pipeHeight = Math.random() * (canvas.height / 2);
         let newPipe = {
             x: canvas.width,
-            width: getPipeWidth(), // Use dynamic pipe width
+            width: 60,
             top: pipeHeight,
             bottomY: pipeHeight + gap,
             bottom: canvas.height - (pipeHeight + gap),
