@@ -10,8 +10,8 @@
         let selectedAvatar = "images/sign.jpg";
 
         // Audio elements
-        const pipeSound = new Audio("sound/pipe.mp3"); // Add a pipe sound file to your project
-        const collectSound = new Audio("sound/collect.mp3"); // Add a collectible sound file
+        const pipeSound = new Audio("pipe.mp3"); // Add a pipe sound file to your project
+        const collectSound = new Audio("collect.mp3"); // Add a collectible sound file
 
         // Preload all images
         const avatarImages = {};
@@ -442,8 +442,9 @@
             const tweetText = encodeURIComponent(
                 `I just scored ${score} points in Flappy Bird: SIGN EDITION! 🎮\n` +
                 `Collected SBTs: ${sbtList}\n` +
-                `Can you beat my score? Try it now: ${https://sign-floppy-bird.vercel.app/}\n` +
-                `Created by @crizqt321\n`
+                `Can you beat my score? Try it now: ${window.location.href}\n` +
+                `Created by @crizqt321\n` +
+                `#FlappyBird #SIGNEDITION #Gaming`
             );
 
             const tweetUrl = `https://twitter.com/intent/tweet?text=${tweetText}`;
@@ -455,12 +456,27 @@
             if (gameStarted) bird.velocity = bird.lift;
         }
 
-        document.addEventListener("keydown", flapBird);
-        canvas.addEventListener("click", flapBird);
+        // Ensure canvas is focusable and can receive touch events
+        canvas.setAttribute("tabindex", "0");
+        canvas.focus();
+
+        // Prevent default touch actions
         canvas.addEventListener("touchstart", function (e) {
             e.preventDefault();
             flapBird();
-        });
+        }, { passive: false });
+
+        canvas.addEventListener("touchend", function (e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        canvas.addEventListener("touchmove", function (e) {
+            e.preventDefault();
+        }, { passive: false });
+
+        // Add click and keydown support
+        canvas.addEventListener("click", flapBird);
+        document.addEventListener("keydown", flapBird);
 
         startButton.addEventListener("click", () => {
             gameStarted = true;
