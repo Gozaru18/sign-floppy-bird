@@ -442,7 +442,7 @@
             const tweetText = encodeURIComponent(
                 `I just scored ${score} points in Flappy Bird: SIGN EDITION! 🎮\n` +
                 `Collected SBTs: ${sbtList}\n` +
-                `Can you beat my score? Try it now: ${window.location.href}\n` +
+                `Can you beat my score? Try it now: ${https://sign-floppy-bird.vercel.app/}\n` +
                 `Created by @crizqt321\n`
             );
 
