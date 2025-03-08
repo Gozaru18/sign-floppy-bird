@@ -1,4 +1,4 @@
-const canvas = document.getElementById("gameCanvas");
+        const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
         const startModal = document.getElementById("startModal");
         const startButton = document.getElementById("startButton");
