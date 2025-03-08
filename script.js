@@ -257,7 +257,7 @@ function update(deltaTime) {
         endGame();
     }
 
-    if (frame % 120 === 0) {
+    if (frame % 180 === 0) {
         let gap = 250;
         let pipeHeight = Math.random() * (canvas.height / 2);
         let newPipe = {
@@ -274,7 +274,7 @@ function update(deltaTime) {
     }
 
     pipes.forEach(pipe => {
-        pipe.x -= 2.5 * speedFactor;
+        pipe.x -= 1.5 * speedFactor;
         if (
             bird.x < pipe.x + pipe.width &&
             bird.x + bird.width > pipe.x &&
