@@ -1,4 +1,4 @@
-     const canvas = document.getElementById("gameCanvas");
+const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
         const startModal = document.getElementById("startModal");
         const startButton = document.getElementById("startButton");
@@ -85,6 +85,7 @@
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            console.log("Canvas resized to:", canvas.width, canvas.height); // Debugging
         }
         window.addEventListener("resize", resizeCanvas);
         resizeCanvas();
@@ -356,9 +357,11 @@
         document.addEventListener("keydown", flapBird);
 
         startButton.addEventListener("click", () => {
+            console.log("Start Game button clicked"); // Debugging
             gameStarted = true;
             gameOver = false;
             startModal.style.display = "none";
+            console.log("Modal hidden:", startModal.style.display); // Debugging
             scoreDisplay.innerText = "Score: 0";
             finalScoreDisplay.style.display = "none";
             score = 0;
@@ -393,4 +396,3 @@
                 howToPlayModal.style.display = "none";
             }
         });
-    
