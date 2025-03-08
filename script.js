@@ -13,6 +13,64 @@
         const pipeSound = new Audio("pipe.mp3"); // Add a pipe sound file to your project
         const collectSound = new Audio("collect.mp3"); // Add a collectible sound file
 
+         function isMobileDevice() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+
+    // Show desktop mode prompt
+    function showDesktopModePrompt() {
+        if (isMobileDevice()) {
+            const mobilePrompt = document.createElement("div");
+            mobilePrompt.style.position = "fixed";
+            mobilePrompt.style.top = "0";
+            mobilePrompt.style.left = "0";
+            mobilePrompt.style.width = "100%";
+            mobilePrompt.style.height = "100%";
+            mobilePrompt.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+            mobilePrompt.style.color = "white";
+            mobilePrompt.style.display = "flex";
+            mobilePrompt.style.justifyContent = "center";
+            mobilePrompt.style.alignItems = "center";
+            mobilePrompt.style.zIndex = "1000";
+            mobilePrompt.innerHTML = `
+                <div style="text-align: center;">
+                    <h2>Please switch to Desktop Mode</h2>
+                    <p>For the best experience, please switch to desktop mode on your mobile browser.</p>
+                    <button onclick="this.parentElement.parentElement.style.display='none'" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Continue Anyway</button>
+                </div>
+            `;
+            document.body.appendChild(mobilePrompt);
+        }
+    }
+
+    // Call this function when the page loads
+    showDesktopModePrompt();
+
+    // Adjust canvas size for mobile devices
+    function resizeCanvas() {
+        const isMobile = isMobileDevice();
+        if (isMobile) {
+            canvas.width = window.innerWidth * 0.9; // Adjust width for mobile
+            canvas.height = window.innerHeight * 0.8; // Adjust height for mobile
+        } else {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+    }
+
+    // Adjust game mechanics for mobile
+    const bird = {
+        x: 50,
+        y: canvas.height / 2,
+        width: 50,
+        height: 50,
+        gravity: isMobileDevice() ? 0.4 : 0.6, // Reduce gravity on mobile
+        lift: isMobileDevice() ? -14 : -12, // Increase lift on mobile
+        velocity: 0
+    };
+
+    // Handle orientation changes
+    window.addEventListener("orientationchange", resizeCanvas);
         // Preload all images
         const avatarImages = {};
         const collectibleImgs = {};
