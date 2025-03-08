@@ -10,8 +10,8 @@
         let selectedAvatar = "images/sign.jpg";
 
         // Audio elements
-        const pipeSound = new Audio("pipe.mp3"); // Add a pipe sound file to your project
-        const collectSound = new Audio("collect.mp3"); // Add a collectible sound file
+        const pipeSound = new Audio("sound/pipe.mp3"); // Add a pipe sound file to your project
+        const collectSound = new Audio("sound/collect.mp3"); // Add a collectible sound file
 
         // Preload all images
         const avatarImages = {};
