@@ -128,7 +128,7 @@
         width: 50,
         height: 50,
         gravity: isMobileDevice() ? 0.4 : 0.6, // Reduced gravity
-        lift: isMobileDevice() ? -10 : -8, // Reduced lift
+        lift: isMobileDevice() ? -8 : -6, // Reduced lift
         velocity: 0
     };
 
