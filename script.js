@@ -75,28 +75,14 @@ let nextSpawnThreshold = 10; // Changed to 10 points
 let collectedSBTs = []; // Array to store collected SBTs for display
 let totalCollectedSBTs = {}; // Object to track the count of each SBT type collected
 
-// function resizeCanvas() {
-//     canvas.width = window.innerWidth;
-//     canvas.height = window.innerHeight;
-// }
-// window.addEventListener("resize", resizeCanvas);
-// resizeCanvas();
-
 function resizeCanvas() {
-    const dpr = window.devicePixelRatio || 1; // Get the device pixel ratio
-
-    // Set the canvas size based on the device pixel ratio
-    canvas.width = window.innerWidth * dpr;
-    canvas.height = window.innerHeight * dpr;
-
-    // Scale the canvas context to match the DPR
-    ctx.scale(dpr, dpr);
-
-    // Adjust CSS size to match the actual canvas size
-    canvas.style.width = window.innerWidth + "px";
-    canvas.style.height = window.innerHeight + "px";
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
+window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
+
+
 const bird = { x: 50, y: canvas.height / 2, width: 50, height: 50, gravity: 0.6, lift: -12, velocity: 0 };
 let pipes = [];
 let collectibles = [];
