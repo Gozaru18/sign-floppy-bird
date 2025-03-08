@@ -15,7 +15,7 @@ function getPipeGap() {
 
 // Function to calculate dynamic pipe width
 function getPipeWidth() {
-    return canvas.width * 0.1; // 10% of canvas width
+    return canvas.width * 0.01; // 10% of canvas width
 }
 
 // Function to calculate dynamic horizontal spacing between pipes
