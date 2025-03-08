@@ -44,8 +44,8 @@
     let selectedAvatar = "images/sign.jpg";
 
     // Audio elements
-    const pipeSound = new Audio("pipe.mp3"); // Add a pipe sound file to your project
-    const collectSound = new Audio("collect.mp3"); // Add a collectible sound file
+    const pipeSound = new Audio("pipe.mp3");
+    const collectSound = new Audio("collect.mp3");
 
     // Preload all images
     const avatarImages = {};
@@ -53,7 +53,7 @@
     const collectibleImageNames = ["images/SupportSBT.png", "images/orangeintheveinSBT.png", "images/seeingsignSBT.png", "images/seriousSBT.png"];
 
     const avatarImageMappings = {
-        "images/sign.jpg": "images/sign.jpg", // Modal and game images are the same (adjust if needed)
+        "images/sign.jpg": "images/sign.jpg",
         "images/zoeCM.jpg": "images/zoeCM-transparent.png",
         "images/signpass.jpg": "images/signpass-transparent.png",
         "images/signdaddy.jpg": "images/signdaddy1.png",
@@ -68,12 +68,10 @@
     // Preload images
     function preloadImages() {
         for (const [modalImage, gameImage] of Object.entries(avatarImageMappings)) {
-            // Preload modal image (with background)
             const modalImg = new Image();
             modalImg.src = modalImage;
             avatarImages[modalImage] = modalImg;
 
-            // Preload game image (transparent)
             const gameImg = new Image();
             gameImg.src = gameImage;
             avatarImages[gameImage] = gameImg;
@@ -88,14 +86,13 @@
     preloadImages();
 
     function selectAvatar(modalImage, event) {
-        // Get the corresponding game image (transparent) from the mapping
         const gameImage = avatarImageMappings[modalImage];
         if (!gameImage) {
             console.error("No game image found for modal image:", modalImage);
             return;
         }
 
-        selectedAvatar = gameImage; // Set the transparent version for the game
+        selectedAvatar = gameImage;
         document.querySelectorAll(".avatar-selection img").forEach(img => img.classList.remove("selected"));
         if (event && event.target) {
             event.target.classList.add("selected");
@@ -105,35 +102,35 @@
     let score = 0;
     let gameStarted = false;
     let comboCounter = 0;
-    let nextSpawnThreshold = 10; // Changed to 10 points
-    let collectedSBTs = []; // Array to store collected SBTs for display
-    let totalCollectedSBTs = {}; // Object to track the count of each SBT type collected
+    let nextSpawnThreshold = 10;
+    let collectedSBTs = [];
+    let totalCollectedSBTs = {};
 
     // Adjust canvas size for mobile devices
     function resizeCanvas() {
         const isMobile = isMobileDevice();
         if (isMobile) {
-            canvas.width = window.innerWidth * 0.9; // Adjust width for mobile
-            canvas.height = window.innerHeight * 0.8; // Adjust height for mobile
+            canvas.width = window.innerWidth * 0.9;
+            canvas.height = window.innerHeight * 0.8;
         } else {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
     }
     window.addEventListener("resize", resizeCanvas);
-    window.addEventListener("orientationchange", resizeCanvas); // Handle orientation changes
+    window.addEventListener("orientationchange", resizeCanvas);
     resizeCanvas();
 
     // Adjust game mechanics for mobile
-  const bird = {
-    x: 50,
-    y: canvas.height / 2,
-    width: 50,
-    height: 50,
-    gravity: isMobileDevice() ? 0.3 : 0.5, // Further reduce gravity
-    lift: isMobileDevice() ? -10 : -8, // Reduce lift for smoother control
-    velocity: 0
-};
+    const bird = {
+        x: 50,
+        y: canvas.height / 2,
+        width: 50,
+        height: 50,
+        gravity: isMobileDevice() ? 0.3 : 0.5, // Reduced gravity
+        lift: isMobileDevice() ? -10 : -8, // Reduced lift
+        velocity: 0
+    };
 
     let pipes = [];
     let collectibles = [];
@@ -146,7 +143,7 @@
     function drawBird() {
         if (!avatarImages[selectedAvatar]) {
             const img = new Image();
-            img.src = selectedAvatar; // Load the transparent version
+            img.src = selectedAvatar;
             avatarImages[selectedAvatar] = img;
         }
 
@@ -155,7 +152,7 @@
         if (img.complete) {
             ctx.save();
             ctx.translate(bird.x + bird.width / 2, bird.y + bird.height / 2);
-            let angle = Math.min(Math.max(bird.velocity * 0.05, -0.6), 0.6); // Tilt effect with limits
+            let angle = Math.min(Math.max(bird.velocity * 0.05, -0.6), 0.6);
             ctx.rotate(angle);
             ctx.drawImage(img, -bird.width / 2, -bird.height / 2, bird.width, bird.height);
             ctx.restore();
@@ -189,18 +186,16 @@
     function drawCollectedSBTs() {
         const sbtSize = 30;
         const spacing = 5;
-        const startX = canvas.width - 40;  // Position to the right
-        const startY = 10;  // Near the top
+        const startX = canvas.width - 40;
+        const startY = 10;
 
         let y = startY;
 
-        // Draw SBT counter
         ctx.fillStyle = "white";
         ctx.font = "20px Arial";
         ctx.textAlign = "right";
         ctx.fillText("SBTs:", startX - 5, y + sbtSize / 2 + 5);
 
-        // Draw each type of collected SBT with count
         let index = 0;
         for (const [sbtName, count] of Object.entries(totalCollectedSBTs)) {
             if (!collectibleImgs[sbtName]) {
@@ -210,20 +205,17 @@
             const img = collectibleImgs[sbtName];
 
             if (img.complete) {
-                // Draw SBT icon
                 ctx.drawImage(img, startX + spacing * index, y, sbtSize, sbtSize);
 
-                // Draw count
                 ctx.fillStyle = "white";
                 ctx.font = "16px Arial";
                 ctx.textAlign = "center";
                 ctx.fillText(count.toString(), startX + spacing * index + sbtSize / 2, y + sbtSize + 16);
             }
 
-            y += sbtSize + 20;  // Move down for the next SBT
+            y += sbtSize + 20;
         }
 
-        // Draw collection effects (animation when collecting SBTs)
         drawCollectionEffects();
     }
 
@@ -232,25 +224,18 @@
             const img = collectibleImgs[effect.image];
 
             if (img && img.complete) {
-                // Calculate animation progress (0 to 1)
                 const progress = (frame - effect.startFrame) / effect.duration;
 
                 if (progress <= 1) {
-                    // Calculate current position (start at collection point, move to top right)
                     const x = effect.startX + (canvas.width - 40 - effect.startX) * progress;
                     const y = effect.startY + (10 - effect.startY) * progress;
-
-                    // Scale effect (start bigger, end smaller)
                     const scale = 1 - progress * 0.5;
+                    const rotation = progress * Math.PI * 2;
 
-                    // Rotation effect
-                    const rotation = progress * Math.PI * 2; // One full rotation
-
-                    // Draw with effects
                     ctx.save();
                     ctx.translate(x, y);
                     ctx.rotate(rotation);
-                    ctx.globalAlpha = 1 - progress * 0.5; // Fade effect
+                    ctx.globalAlpha = 1 - progress * 0.5;
                     ctx.drawImage(img, -effect.size * scale / 2, -effect.size * scale / 2,
                         effect.size * scale, effect.size * scale);
                     ctx.restore();
@@ -258,7 +243,6 @@
             }
         });
 
-        // Clean up finished effects
         collectionEffects = collectionEffects.filter(effect =>
             (frame - effect.startFrame) <= effect.duration);
     }
@@ -266,19 +250,18 @@
     function spawnCollectible(pipe) {
         if (score < nextSpawnThreshold) return;
 
-        // Spawn SBT in the center of the pipe gap or at a random position within the gap
         const centerY = pipe.bottomY - (pipe.bottomY - pipe.top) / 2;
-        const randomY = pipe.top + Math.random() * (pipe.bottomY - pipe.top - 80); // Ensure SBT fits within the gap
+        const randomY = pipe.top + Math.random() * (pipe.bottomY - pipe.top - 80);
 
         collectibles.push({
             x: pipe.x + pipe.width + 20,
-            y: centerY, // Spawn in the center of the pipe gap
-            size: 80, // Increased size to 2x
+            y: centerY,
+            size: 80,
             image: collectibleImageNames[Math.floor(Math.random() * collectibleImageNames.length)]
         });
 
         comboCounter++;
-        nextSpawnThreshold += 10; // Spawn collectibles every 10 points
+        nextSpawnThreshold += 10;
     }
 
     function update() {
@@ -287,7 +270,6 @@
         bird.velocity += bird.gravity;
         bird.y += bird.velocity;
 
-        // Fix for top collision - don't fail when player touches the top
         if (bird.y < 0) {
             bird.y = 0;
             bird.velocity = 0;
@@ -297,7 +279,7 @@
         }
 
         if (frame % 120 === 0) {
-            let gap = 300;
+            let gap = 300; // Increased gap for easier gameplay
             let pipeHeight = Math.random() * (canvas.height / 2);
             let newPipe = {
                 x: canvas.width,
@@ -313,7 +295,7 @@
         }
 
         pipes.forEach(pipe => {
-            pipe.x -= 1.5;
+            pipe.x -= 1.5; // Slower pipe movement
             if (
                 bird.x < pipe.x + pipe.width &&
                 bird.x + bird.width > pipe.x &&
@@ -322,7 +304,6 @@
                 endGame();
             }
             if (!pipe.passed && pipe.x + pipe.width < bird.x) {
-                // Play sound when passing a pipe
                 try {
                     pipeSound.currentTime = 0;
                     pipeSound.play();
@@ -339,14 +320,13 @@
         pipes = pipes.filter(pipe => pipe.x + pipe.width > 0);
 
         collectibles.forEach((item, index) => {
-            item.x -= 2.5;
+            item.x -= 1.5; // Slower collectible movement
             if (
                 bird.x < item.x + item.size &&
                 bird.x + bird.width > item.x &&
                 bird.y < item.y + item.size &&
                 bird.y + bird.height > item.y
             ) {
-                // Play collect sound
                 try {
                     collectSound.currentTime = 0;
                     collectSound.play();
@@ -354,26 +334,23 @@
                     console.log("Sound error:", e);
                 }
 
-                // Add to collected SBTs with current frame number
                 collectedSBTs.push({
                     image: item.image,
                     collectedFrame: frame
                 });
 
-                // Update total collection counter
                 if (!totalCollectedSBTs[item.image]) {
                     totalCollectedSBTs[item.image] = 0;
                 }
                 totalCollectedSBTs[item.image]++;
 
-                // Add collection effect
                 collectionEffects.push({
                     image: item.image,
                     startX: item.x,
                     startY: item.y,
                     size: item.size,
                     startFrame: frame,
-                    duration: 60 // 1 second at 60fps
+                    duration: 60
                 });
 
                 score += 5;
@@ -391,28 +368,27 @@
         drawBird();
         drawPipes();
         drawCollectibles();
-        drawCollectedSBTs(); // Draw the collected SBTs at the top
+        drawCollectedSBTs();
     }
 
-   let lastTime = 0;
-const frameRate = 30; // Target frame rate (e.g., 30 FPS)
+    let lastTime = 0;
+    const frameRate = 60; // Target frame rate (30 FPS)
 
-function gameLoop(timestamp) {
-    if (!gameOver) {
-        const deltaTime = timestamp - lastTime;
-        if (deltaTime >= 1000 / frameRate) { // Ensure the game updates at the target frame rate
-            update();
-            draw();
-            lastTime = timestamp;
+    function gameLoop(timestamp) {
+        if (!gameOver) {
+            const deltaTime = timestamp - lastTime;
+            if (deltaTime >= 1000 / frameRate) {
+                update();
+                draw();
+                lastTime = timestamp;
+            }
+            requestAnimationFrame(gameLoop);
         }
-        requestAnimationFrame(gameLoop);
     }
-}
 
     function endGame() {
         gameOver = true;
 
-        // Create SBT collection display for the modal
         let sbtHTML = '<div class="collected-sbts">';
         sbtHTML += '<h3>Collected SBTs:</h3>';
         sbtHTML += '<div class="sbt-grid">';
@@ -439,7 +415,6 @@ function gameLoop(timestamp) {
 
             finalScoreDisplay.appendChild(shareButton);
 
-            // Add CSS for the SBT display in the modal
             const style = document.createElement('style');
             style.textContent = `
                 .collected-sbts {
