@@ -9,19 +9,6 @@ const finalScoreDisplay = document.getElementById("finalScore");
 let selectedAvatar = "images/sign.jpg";
 
 // Function to calculate dynamic gap size
-function getPipeGap() {
-    return canvas.height * 0.25; // 25% of canvas height
-}
-
-// Function to calculate dynamic pipe width
-function getPipeWidth() {
-    return canvas.width * 0.1; // 10% of canvas width
-}
-
-// Function to calculate dynamic horizontal spacing between pipes
-function getPipeSpacing() {
-    return canvas.width * 0.5; // 50% of canvas width
-}
 
 // Audio elements
 const pipeSound = new Audio("pipe.mp3"); // Add a pipe sound file to your project
