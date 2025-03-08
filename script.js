@@ -9,8 +9,8 @@ const finalScoreDisplay = document.getElementById("finalScore");
 let selectedAvatar = "images/sign.jpg";
 
 // Audio elements
-const pipeSound = new Audio("sound/pipe.mp3"); // Add a pipe sound file to your project
-const collectSound = new Audio("sound/collect.mp3"); // Add a collectible sound file
+const pipeSound = new Audio("pipe.mp3"); // Add a pipe sound file to your project
+const collectSound = new Audio("collect.mp3"); // Add a collectible sound file
 
 // Preload all images
 const avatarImages = {};
@@ -89,6 +89,18 @@ let gameOver = false;
 
 // Collection effect animation
 let collectionEffects = [];
+
+// Function to calculate dynamic pipe gap
+function getPipeGap() {
+    // Set the gap to 20% of the canvas height (adjust as needed)
+    return canvas.height * 0.2;
+}
+
+// Function to calculate dynamic pipe width
+function getPipeWidth() {
+    // Set the width to 10% of the canvas width (adjust as needed)
+    return canvas.width * 0.1;
+}
 
 function drawBird() {
     if (!avatarImages[selectedAvatar]) {
@@ -258,11 +270,11 @@ function update(deltaTime) {
     }
 
     if (frame % 120 === 0) {
-        let gap = 250;
+        let gap = getPipeGap(); // Use dynamic gap size
         let pipeHeight = Math.random() * (canvas.height / 2);
         let newPipe = {
             x: canvas.width,
-            width: 60,
+            width: getPipeWidth(), // Use dynamic pipe width
             top: pipeHeight,
             bottomY: pipeHeight + gap,
             bottom: canvas.height - (pipeHeight + gap),
