@@ -1,5 +1,4 @@
-
-        const canvas = document.getElementById("gameCanvas");
+     const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
         const startModal = document.getElementById("startModal");
         const startButton = document.getElementById("startButton");
@@ -8,6 +7,14 @@
         const scoreDisplay = document.getElementById("score");
         const finalScoreDisplay = document.getElementById("finalScore");
         let selectedAvatar = "images/sign.jpg";
+
+        // Detect if the user is on a mobile device
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // Game parameters adjusted for mobile
+        const pipeSpeed = isMobile ? 1.5 : 2.5; // Slower pipe speed on mobile
+        const birdGravity = isMobile ? 0.4 : 0.6; // Lower gravity on mobile
+        const birdLift = isMobile ? -10 : -12; // Slightly less lift on mobile
 
         // Audio elements
         const pipeSound = new Audio("pipe.mp3"); // Add a pipe sound file to your project
@@ -82,7 +89,7 @@
         window.addEventListener("resize", resizeCanvas);
         resizeCanvas();
 
-        const bird = { x: 50, y: canvas.height / 2, width: 50, height: 50, gravity: 0.6, lift: -12, velocity: 0 };
+        const bird = { x: 50, y: canvas.height / 2, width: 50, height: 50, gravity: birdGravity, lift: birdLift, velocity: 0 };
         let pipes = [];
         let collectibles = [];
         let frame = 0;
@@ -91,149 +98,15 @@
         // Collection effect animation
         let collectionEffects = [];
 
-        function drawBird() {
-            if (!avatarImages[selectedAvatar]) {
-                const img = new Image();
-                img.src = selectedAvatar; // Load the transparent version
-                avatarImages[selectedAvatar] = img;
-            }
+        // Frame rate independence
+        let lastTime = 0;
+        const fixedTimeStep = 1000 / 60; // 60 FPS
 
-            const img = avatarImages[selectedAvatar];
-
-            if (img.complete) {
-                ctx.save();
-                ctx.translate(bird.x + bird.width / 2, bird.y + bird.height / 2);
-                let angle = Math.min(Math.max(bird.velocity * 0.05, -0.6), 0.6); // Tilt effect with limits
-                ctx.rotate(angle);
-                ctx.drawImage(img, -bird.width / 2, -bird.height / 2, bird.width, bird.height);
-                ctx.restore();
-            }
-        }
-
-        function drawPipes() {
-            ctx.fillStyle = "green";
-            pipes.forEach(pipe => {
-                ctx.fillRect(pipe.x, 0, pipe.width, pipe.top);
-                ctx.fillRect(pipe.x, pipe.bottomY, pipe.width, pipe.bottom);
-            });
-        }
-
-        function drawCollectibles() {
-            collectibles.forEach(item => {
-                if (!collectibleImgs[item.image]) {
-                    const img = new Image();
-                    img.src = item.image;
-                    collectibleImgs[item.image] = img;
-                }
-
-                const img = collectibleImgs[item.image];
-
-                if (img.complete) {
-                    ctx.drawImage(img, item.x, item.y, item.size, item.size);
-                }
-            });
-        }
-
-        function drawCollectedSBTs() {
-            const sbtSize = 30;
-            const spacing = 5;
-            const startX = canvas.width - 40;  // Position to the right
-            const startY = 10;  // Near the top
-
-            let y = startY;
-
-            // Draw SBT counter
-            ctx.fillStyle = "white";
-            ctx.font = "20px Arial";
-            ctx.textAlign = "right";
-            ctx.fillText("SBTs:", startX - 5, y + sbtSize / 2 + 5);
-
-            // Draw each type of collected SBT with count
-            let index = 0;
-            for (const [sbtName, count] of Object.entries(totalCollectedSBTs)) {
-                if (!collectibleImgs[sbtName]) {
-                    continue;
-                }
-
-                const img = collectibleImgs[sbtName];
-
-                if (img.complete) {
-                    // Draw SBT icon
-                    ctx.drawImage(img, startX + spacing * index, y, sbtSize, sbtSize);
-
-                    // Draw count
-                    ctx.fillStyle = "white";
-                    ctx.font = "16px Arial";
-                    ctx.textAlign = "center";
-                    ctx.fillText(count.toString(), startX + spacing * index + sbtSize / 2, y + sbtSize + 16);
-                }
-
-                y += sbtSize + 20;  // Move down for the next SBT
-            }
-
-            // Draw collection effects (animation when collecting SBTs)
-            drawCollectionEffects();
-        }
-
-        function drawCollectionEffects() {
-            collectionEffects.forEach((effect, index) => {
-                const img = collectibleImgs[effect.image];
-
-                if (img && img.complete) {
-                    // Calculate animation progress (0 to 1)
-                    const progress = (frame - effect.startFrame) / effect.duration;
-
-                    if (progress <= 1) {
-                        // Calculate current position (start at collection point, move to top right)
-                        const x = effect.startX + (canvas.width - 40 - effect.startX) * progress;
-                        const y = effect.startY + (10 - effect.startY) * progress;
-
-                        // Scale effect (start bigger, end smaller)
-                        const scale = 1 - progress * 0.5;
-
-                        // Rotation effect
-                        const rotation = progress * Math.PI * 2; // One full rotation
-
-                        // Draw with effects
-                        ctx.save();
-                        ctx.translate(x, y);
-                        ctx.rotate(rotation);
-                        ctx.globalAlpha = 1 - progress * 0.5; // Fade effect
-                        ctx.drawImage(img, -effect.size * scale / 2, -effect.size * scale / 2,
-                            effect.size * scale, effect.size * scale);
-                        ctx.restore();
-                    }
-                }
-            });
-
-            // Clean up finished effects
-            collectionEffects = collectionEffects.filter(effect =>
-                (frame - effect.startFrame) <= effect.duration);
-        }
-
-        function spawnCollectible(pipe) {
-            if (score < nextSpawnThreshold) return;
-
-            // Spawn SBT in the center of the pipe gap or at a random position within the gap
-            const centerY = pipe.bottomY - (pipe.bottomY - pipe.top) / 2;
-            const randomY = pipe.top + Math.random() * (pipe.bottomY - pipe.top - 80); // Ensure SBT fits within the gap
-
-            collectibles.push({
-                x: pipe.x + pipe.width + 20,
-                y: centerY, // Spawn in the center of the pipe gap
-                size: 80, // Increased size to 2x
-                image: collectibleImageNames[Math.floor(Math.random() * collectibleImageNames.length)]
-            });
-
-            comboCounter++;
-            nextSpawnThreshold += 10; // Spawn collectibles every 10 points
-        }
-
-        function update() {
+        function update(deltaTime) {
             if (gameOver) return;
 
-            bird.velocity += bird.gravity;
-            bird.y += bird.velocity;
+            bird.velocity += bird.gravity * (deltaTime / 16.67); // Normalize gravity
+            bird.y += bird.velocity * (deltaTime / 16.67); // Normalize velocity
 
             // Fix for top collision - don't fail when player touches the top
             if (bird.y < 0) {
@@ -261,7 +134,7 @@
             }
 
             pipes.forEach(pipe => {
-                pipe.x -= 2.5;
+                pipe.x -= pipeSpeed * (deltaTime / 16.67); // Normalize pipe speed
                 if (
                     bird.x < pipe.x + pipe.width &&
                     bird.x + bird.width > pipe.x &&
@@ -287,7 +160,7 @@
             pipes = pipes.filter(pipe => pipe.x + pipe.width > 0);
 
             collectibles.forEach((item, index) => {
-                item.x -= 2.5;
+                item.x -= pipeSpeed * (deltaTime / 16.67); // Normalize collectible speed
                 if (
                     bird.x < item.x + item.size &&
                     bird.x + bird.width > item.x &&
@@ -342,8 +215,12 @@
             drawCollectedSBTs(); // Draw the collected SBTs at the top
         }
 
-        function gameLoop() {
-            update();
+        function gameLoop(timestamp) {
+            if (!lastTime) lastTime = timestamp;
+            const deltaTime = timestamp - lastTime;
+            lastTime = timestamp;
+
+            update(deltaTime);
             draw();
             if (!gameOver) requestAnimationFrame(gameLoop);
         }
@@ -495,7 +372,7 @@
             frame = 0;
             bird.y = canvas.height / 2;
             bird.velocity = 0;
-            gameLoop();
+            requestAnimationFrame(gameLoop);
         });
 
         // Also update your HTML to fix the avatar selection
@@ -516,3 +393,4 @@
                 howToPlayModal.style.display = "none";
             }
         });
+    
