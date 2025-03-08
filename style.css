@@ -1,0 +1,218 @@
+ body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(325deg, #6f00fc 0%, #fc7900 50%, #fcc500b9 100%);
+            overflow: hidden;
+            margin: 0;
+            flex-direction: column;
+            position: relative;
+        }
+
+        canvas {
+            background: linear-gradient(325deg, #6f00fc 0%, #fc7900 50%, #fcc500b9 100%);
+            border: 2px solid black;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .modal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            flex-direction: column;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #fc7900;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 15px;
+            color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+            animation: pulse 2s infinite;
+        }
+
+        .button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(252, 121, 0, 0.8);
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .score {
+            font-size: 1.5em;
+            color: white;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #finalScore {
+            font-size: 1.2em;
+            color: black;
+            margin-top: 10px;
+        }
+
+        .avatar-selection img {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid transparent;
+        }
+
+        .avatar-selection img.selected {
+            border: 2px solid #ffcc00;
+        }
+
+        span {
+            color: #fc7900;
+        }
+
+        img {
+            background-color: inherit;
+        }
+
+        /* SBT collection display styles */
+        .collected-sbts {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .sbt-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .sbt-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sbt-count {
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .sbt-item img {
+            animation: pulse 2s infinite;
+            border-radius: 50%;
+            background-color: transparent;
+        }
+
+        /* Replay and Share buttons */
+        #shareButton {
+            background-color: #1da1f2;
+            /* Twitter/X blue */
+        }
+
+        /* Add this to your existing CSS */
+        .footer {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+            color: white;
+            text-align: center;
+        }
+
+        .footer::before {
+            content: "🧡";
+            margin-right: 5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #fc7900;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .button {
+                font-size: 1em;
+                padding: 8px 16px;
+            }
+
+            .score {
+                font-size: 1.2em;
+            }
+
+            #finalScore {
+                font-size: 1em;
+            }
+
+            .avatar-selection img {
+                width: 40px;
+                height: 40px;
+            }
+
+            .footer {
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .button {
+                font-size: 0.9em;
+                padding: 6px 12px;
+            }
+
+            .score {
+                font-size: 1em;
+            }
+
+            #finalScore {
+                font-size: 0.9em;
+            }
+
+            .avatar-selection img {
+                width: 30px;
+                height: 30px;
+            }
+
+            .footer {
+                font-size: 0.8em;
+            }
+        }
