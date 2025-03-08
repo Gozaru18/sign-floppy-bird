@@ -8,6 +8,51 @@ const scoreDisplay = document.getElementById("score");
 const finalScoreDisplay = document.getElementById("finalScore");
 let selectedAvatar = "images/sign.jpg";
 
+//start
+// Add a function to detect if the device is mobile
+function isMobile() {
+    return window.innerWidth <= 768; // Adjust the threshold as needed
+}
+
+// Function to calculate dynamic pipe gap
+function getPipeGap(alternate) {
+    if (isMobile()) {
+        // On mobile, alternate between two gap sizes
+        return alternate ? canvas.height * 0.2 : canvas.height * 0.3; // 20% and 30% of canvas height
+    } else {
+        // On desktop, use a fixed gap size
+        return 250; // Fixed gap size for desktop
+    }
+}
+
+// Track gap alternation
+let alternateGap = false;
+
+// Update the pipe spawning logic
+if (frame % 120 === 0) {
+    let gap = getPipeGap(alternateGap); // Use dynamic gap size
+    let pipeHeight = Math.random() * (canvas.height / 2);
+    let newPipe = {
+        x: canvas.width,
+        width: 60,
+        top: pipeHeight,
+        bottomY: pipeHeight + gap,
+        bottom: canvas.height - (pipeHeight + gap),
+        passed: false
+    };
+    pipes.push(newPipe);
+
+    spawnCollectible(newPipe);
+
+    // Toggle the gap alternation for the next pipe
+    alternateGap = !alternateGap;
+}
+
+// end
+
+
+
+
 // Audio elements
 const pipeSound = new Audio("pipe.mp3"); // Add a pipe sound file to your project
 const collectSound = new Audio("collect.mp3"); // Add a collectible sound file
@@ -258,7 +303,7 @@ function update(deltaTime) {
     }
 
     if (frame % 120 === 0) {
-        let gap = 250;
+        let gap = getPipeGap(alternateGap); // Use dynamic gap size
         let pipeHeight = Math.random() * (canvas.height / 2);
         let newPipe = {
             x: canvas.width,
@@ -271,6 +316,9 @@ function update(deltaTime) {
         pipes.push(newPipe);
 
         spawnCollectible(newPipe);
+
+        // Toggle the gap alternation for the next pipe
+        alternateGap = !alternateGap;
     }
 
     pipes.forEach(pipe => {
