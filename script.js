@@ -8,8 +8,6 @@ const scoreDisplay = document.getElementById("score");
 const finalScoreDisplay = document.getElementById("finalScore");
 let selectedAvatar = "images/sign.jpg";
 
-// Function to calculate dynamic gap size
-
 // Audio elements
 const pipeSound = new Audio("pipe.mp3"); // Add a pipe sound file to your project
 const collectSound = new Audio("collect.mp3"); // Add a collectible sound file
@@ -259,13 +257,12 @@ function update(deltaTime) {
         endGame();
     }
 
-    // Spawn new pipes
     if (frame % 120 === 0) {
-        let gap = getPipeGap(); // Dynamic gap size
+        let gap = 250;
         let pipeHeight = Math.random() * (canvas.height / 2);
         let newPipe = {
             x: canvas.width,
-            width: getPipeWidth(), // Dynamic pipe width
+            width: 60,
             top: pipeHeight,
             bottomY: pipeHeight + gap,
             bottom: canvas.height - (pipeHeight + gap),
@@ -276,7 +273,6 @@ function update(deltaTime) {
         spawnCollectible(newPipe);
     }
 
-    // Move pipes
     pipes.forEach(pipe => {
         pipe.x -= 2.5 * speedFactor;
         if (
@@ -302,7 +298,6 @@ function update(deltaTime) {
 
     pipes = pipes.filter(pipe => pipe.x + pipe.width > 0);
 
-    // Move collectibles
     collectibles.forEach((item, index) => {
         item.x -= 2.5 * speedFactor;
         if (
@@ -346,6 +341,7 @@ function update(deltaTime) {
     collectibles = collectibles.filter(item => item.x + item.size > 0);
     frame++;
 }
+
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBird();
