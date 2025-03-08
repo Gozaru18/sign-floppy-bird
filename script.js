@@ -20,7 +20,7 @@ function getPipeWidth() {
 
 // Function to calculate dynamic horizontal spacing between pipes
 function getPipeSpacing() {
-    return canvas.width * 0.1; // 50% of canvas width
+    return canvas.width * 0.5; // 50% of canvas width
 }
 
 // Audio elements
