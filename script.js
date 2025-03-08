@@ -127,7 +127,7 @@
         y: canvas.height / 2,
         width: 50,
         height: 50,
-        gravity: isMobileDevice() ? 0.3 : 0.5, // Reduced gravity
+        gravity: isMobileDevice() ? 0.4 : 0.6, // Reduced gravity
         lift: isMobileDevice() ? -10 : -8, // Reduced lift
         velocity: 0
     };
@@ -279,7 +279,7 @@
         }
 
         if (frame % 120 === 0) {
-            let gap = 300; // Increased gap for easier gameplay
+            let gap = 250; // Increased gap for easier gameplay
             let pipeHeight = Math.random() * (canvas.height / 2);
             let newPipe = {
                 x: canvas.width,
@@ -295,7 +295,7 @@
         }
 
         pipes.forEach(pipe => {
-            pipe.x -= 2; // Slower pipe movement
+            pipe.x -= 1.5; // Slower pipe movement
             if (
                 bird.x < pipe.x + pipe.width &&
                 bird.x + bird.width > pipe.x &&
