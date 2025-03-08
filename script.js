@@ -8,6 +8,13 @@ const scoreDisplay = document.getElementById("score");
 const finalScoreDisplay = document.getElementById("finalScore");
 let selectedAvatar = "images/sign.jpg";
 
+function getPipeGap() {
+    return canvas.height * 0.25; // 25% of canvas height
+}
+
+function getPipeWidth() {
+    return canvas.width * 0.1; // 10% of canvas width
+}
 // Audio elements
 const pipeSound = new Audio("sound/pipe.mp3"); // Add a pipe sound file to your project
 const collectSound = new Audio("sound/collect.mp3"); // Add a collectible sound file
