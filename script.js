@@ -320,7 +320,7 @@
         pipes = pipes.filter(pipe => pipe.x + pipe.width > 0);
 
         collectibles.forEach((item, index) => {
-            item.x -= 1.5; // Slower collectible movement
+            item.x -= 0; // Slower collectible movement
             if (
                 bird.x < item.x + item.size &&
                 bird.x + bird.width > item.x &&
