@@ -8,13 +8,6 @@ const scoreDisplay = document.getElementById("score");
 const finalScoreDisplay = document.getElementById("finalScore");
 let selectedAvatar = "images/sign.jpg";
 
-//start
-// Add a function to detect if the device is mobile
-
-
-
-
-
 // Audio elements
 const pipeSound = new Audio("pipe.mp3"); // Add a pipe sound file to your project
 const collectSound = new Audio("collect.mp3"); // Add a collectible sound file
@@ -265,7 +258,7 @@ function update(deltaTime) {
     }
 
     if (frame % 120 === 0) {
-        let gap = getPipeGap(alternateGap); // Use dynamic gap size
+        let gap = 250;
         let pipeHeight = Math.random() * (canvas.height / 2);
         let newPipe = {
             x: canvas.width,
@@ -278,9 +271,6 @@ function update(deltaTime) {
         pipes.push(newPipe);
 
         spawnCollectible(newPipe);
-
-        // Toggle the gap alternation for the next pipe
-        alternateGap = !alternateGap;
     }
 
     pipes.forEach(pipe => {
