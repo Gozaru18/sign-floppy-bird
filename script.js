@@ -257,12 +257,12 @@ function update(deltaTime) {
         endGame();
     }
 
-    if (frame % 100 === 0) {
+    if (frame % 120 === 0) {
         let gap = 250;
         let pipeHeight = Math.random() * (canvas.height / 2);
         let newPipe = {
             x: canvas.width,
-            width: 50,
+            width: 60,
             top: pipeHeight,
             bottomY: pipeHeight + gap,
             bottom: canvas.height - (pipeHeight + gap),
