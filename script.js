@@ -76,10 +76,12 @@ let collectedSBTs = []; // Array to store collected SBTs for display
 let totalCollectedSBTs = {}; // Object to track the count of each SBT type collected
 
 function resizeCanvas() {
-    const height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
-    canvas.width = window.innerWidth;
-    canvas.height = height;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    ctx.scale(dpr, dpr); // Scale for high-DPI screens
 }
+
 
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
