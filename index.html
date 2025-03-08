@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Flappy Bird</title>
+     <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="score" id="score">Score: 0</div>
+    <div class="modal" id="startModal">
+        <div class="modal-content">
+            <h2>Floppy Bird: <span>SIGN EDITION</span></h2>
+            <p>Select your avatar:</p>
+            <div class="avatar-selection" id="avatarSelection">
+                <img src="images/sign.jpg" class="selected" onclick="selectAvatar('images/sign.jpg', event)">
+                <img src="images/zoeCM.jpg" onclick="selectAvatar('images/zoeCM.jpg', event)">
+                <img src="images/signpass.jpg" onclick="selectAvatar('images/signpass.jpg', event)">
+                <img src="images/signdaddy.jpg" onclick="selectAvatar('images/signdaddy.jpg', event)">
+                <img src="images/meganwang.jpg" onclick="selectAvatar('images/meganwang.jpg', event)">
+                <img src="images/zunXBT.png" onclick="selectAvatar('images/zunXBT.png', event)">
+                <img src="images/tokentable.jpg" onclick="selectAvatar('images/tokentable.jpg', event)">
+                <img src="images/lodi.jpg" onclick="selectAvatar('images/lodi.jpg', event)">
+                <img src="images/lodi1.jpg" onclick="selectAvatar('images/lodi1.jpg', event)">
+                <img src="images/lodi2.jpg" onclick="selectAvatar('images/lodi2.jpg', event)">
+            </div>
+            <p id="finalScore" style="display: none;"></p>
+            <button class="button" id="startButton">Start Game</button>
+            <button class="button" id="howToPlayButton">How to Play</button>
+        </div>
+    </div>
+    <div class="modal" id="howToPlayModal">
+        <div class="modal-content">
+            <h2>How to Play</h2>
+            <ul>
+                <li><strong>Objective:</strong> Navigate the bird through gaps between pipes without crashing.</li>
+                <li><strong>Controls:</strong> Tap/Click/Spacebar to flap the bird's wings.</li>
+                <li><strong>Scoring:</strong> Earn 1 point for each pipe and 5 points for each SBT collected.</li>
+                <li><strong>Game Over:</strong> The game ends if you hit a pipe, the ground, or the top of the screen.
+                </li>
+                <li><strong>Tips:</strong> Stay centered, time your flaps, and collect SBTs for bonus points!</li>
+            </ul>
+            <button class="button"
+                onclick="document.getElementById('howToPlayModal').style.display = 'none'">Close</button>
+        </div>
+    </div>
+    <footer class="footer">
+        Created by <a href="http://x.com/crizqt321">Crypto Engager</a> 🧡
+    </footer>
+    <canvas id="gameCanvas"></canvas>
+  <script src="script.js"></script>
+
+</body>
+</html>
