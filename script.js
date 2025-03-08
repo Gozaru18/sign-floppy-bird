@@ -76,11 +76,16 @@ let collectedSBTs = [];
 let totalCollectedSBTs = {};
 
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    ctx.scale(dpr, dpr);
 }
+
 window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
+resizeCanvas(); // Initial resize
+
+
 
 const bird = { x: 50, y: canvas.height / 2, width: 50, height: 50, gravity: 0.6, lift: -12, velocity: 0 };
 let pipes = [];
