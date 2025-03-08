@@ -341,13 +341,129 @@
             drawCollectibles();
             drawCollectedSBTs(); // Draw the collected SBTs at the top
         }
-
-        function gameLoop() {
-            update();
-            draw();
-            if (!gameOver) requestAnimationFrame(gameLoop);
+//start
+       const FPS = 60; // Desired frame rate
+       const frameInterval = 1000 / FPS; // Time per frame in milliseconds
+       function gameLoop() {
+       update();
+       draw();
+       if (!gameOver) setTimeout(gameLoop, frameInterval);
         }
+//start
+        let lastTime = 0;
 
+function gameLoop(timestamp) {
+    if (!lastTime) lastTime = timestamp;
+    const deltaTime = timestamp - lastTime;
+    lastTime = timestamp;
+
+    update(deltaTime);
+    draw();
+    if (!gameOver) requestAnimationFrame(gameLoop);
+}
+
+function update(deltaTime) {
+    if (gameOver) return;
+
+    const speedFactor = deltaTime / (1000 / 60); // Normalize speed to 60 FPS
+
+    bird.velocity += bird.gravity * speedFactor;
+    bird.y += bird.velocity * speedFactor;
+
+    // Fix for top collision
+    if (bird.y < 0) {
+        bird.y = 0;
+        bird.velocity = 0;
+        endGame();
+    } else if (bird.y + bird.height >= canvas.height) {
+        endGame();
+    }
+
+    if (frame % 120 === 0) {
+        let gap = 250;
+        let pipeHeight = Math.random() * (canvas.height / 2);
+        let newPipe = {
+            x: canvas.width,
+            width: 60,
+            top: pipeHeight,
+            bottomY: pipeHeight + gap,
+            bottom: canvas.height - (pipeHeight + gap),
+            passed: false
+        };
+        pipes.push(newPipe);
+
+        spawnCollectible(newPipe);
+    }
+
+    pipes.forEach(pipe => {
+        pipe.x -= 2.5 * speedFactor;
+        if (
+            bird.x < pipe.x + pipe.width &&
+            bird.x + bird.width > pipe.x &&
+            (bird.y < pipe.top || bird.y + bird.height > pipe.bottomY)
+        ) {
+            endGame();
+        }
+        if (!pipe.passed && pipe.x + pipe.width < bird.x) {
+            try {
+                pipeSound.currentTime = 0;
+                pipeSound.play();
+            } catch (e) {
+                console.log("Sound error:", e);
+            }
+
+            score++;
+            pipe.passed = true;
+            scoreDisplay.innerText = "Score: " + score;
+        }
+    });
+
+    pipes = pipes.filter(pipe => pipe.x + pipe.width > 0);
+
+    collectibles.forEach((item, index) => {
+        item.x -= 2.5 * speedFactor;
+        if (
+            bird.x < item.x + item.size &&
+            bird.x + bird.width > item.x &&
+            bird.y < item.y + item.size &&
+            bird.y + bird.height > item.y
+        ) {
+            try {
+                collectSound.currentTime = 0;
+                collectSound.play();
+            } catch (e) {
+                console.log("Sound error:", e);
+            }
+
+            collectedSBTs.push({
+                image: item.image,
+                collectedFrame: frame
+            });
+
+            if (!totalCollectedSBTs[item.image]) {
+                totalCollectedSBTs[item.image] = 0;
+            }
+            totalCollectedSBTs[item.image]++;
+
+            collectionEffects.push({
+                image: item.image,
+                startX: item.x,
+                startY: item.y,
+                size: item.size,
+                startFrame: frame,
+                duration: 60
+            });
+
+            score += 5;
+            collectibles.splice(index, 1);
+            scoreDisplay.innerText = "Score: " + score;
+        }
+    });
+
+    collectibles = collectibles.filter(item => item.x + item.size > 0);
+    frame++;
+}
+//end
         function endGame() {
             gameOver = true;
 
@@ -462,25 +578,26 @@
             flapBird();
         });
 
-        startButton.addEventListener("click", () => {
-            gameStarted = true;
-            gameOver = false;
-            startModal.style.display = "none";
-            scoreDisplay.innerText = "Score: 0";
-            finalScoreDisplay.style.display = "none";
-            score = 0;
-            comboCounter = 0;
-            nextSpawnThreshold = 10;
-            pipes = [];
-            collectibles = [];
-            collectedSBTs = [];
-            totalCollectedSBTs = {};
-            collectionEffects = [];
-            frame = 0;
-            bird.y = canvas.height / 2;
-            bird.velocity = 0;
-            gameLoop();
-        });
+      startButton.addEventListener("click", () => {
+    gameStarted = true;
+    gameOver = false;
+    startModal.style.display = "none";
+    scoreDisplay.innerText = "Score: 0";
+    finalScoreDisplay.style.display = "none";
+    score = 0;
+    comboCounter = 0;
+    nextSpawnThreshold = 10;
+    pipes = [];
+    collectibles = [];
+    collectedSBTs = [];
+    totalCollectedSBTs = {};
+    collectionEffects = [];
+    frame = 0;
+    bird.y = canvas.height / 2;
+    bird.velocity = 0;
+    lastTime = 0; // Reset lastTime
+    gameLoop(); // Start the game loop
+});
 
         // Also update your HTML to fix the avatar selection
         document.querySelectorAll(".avatar-selection img").forEach(img => {
