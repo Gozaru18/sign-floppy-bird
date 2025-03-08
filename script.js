@@ -74,12 +74,12 @@ let nextSpawnThreshold = 10; // Changed to 10 points
 let collectedSBTs = []; // Array to store collected SBTs for display
 let totalCollectedSBTs = {}; // Object to track the count of each SBT type collected
 
-function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
+// function resizeCanvas() {
+//     canvas.width = window.innerWidth;
+//     canvas.height = window.innerHeight;
+// }
+// window.addEventListener("resize", resizeCanvas);
+// resizeCanvas();
 
 const bird = { x: 50, y: canvas.height / 2, width: 50, height: 50, gravity: 0.6, lift: -12, velocity: 0 };
 let pipes = [];
@@ -228,6 +228,134 @@ function spawnCollectible(pipe) {
     nextSpawnThreshold += 10; // Spawn collectibles every 10 points
 }
 
+// let lastTime = 0;
+
+// function gameLoop(timestamp) {
+//     if (!lastTime) lastTime = timestamp;
+//     const deltaTime = timestamp - lastTime;
+//     lastTime = timestamp;
+
+//     update(deltaTime);
+//     draw();
+//     if (!gameOver) requestAnimationFrame(gameLoop);
+// }
+
+// function update(deltaTime) {
+//     if (gameOver) return;
+
+//     const speedFactor = deltaTime / (1000 / 60); // Normalize speed to 60 FPS
+
+//     bird.velocity += bird.gravity * speedFactor;
+//     bird.y += bird.velocity * speedFactor;
+
+//     // Fix for top collision
+//     if (bird.y < 0) {
+//         bird.y = 0;
+//         bird.velocity = 0;
+//         endGame();
+//     } else if (bird.y + bird.height >= canvas.height) {
+//         endGame();
+//     }
+
+//     if (frame % 120 === 0) {
+//         let gap = 250;
+//         let pipeHeight = Math.random() * (canvas.height / 2);
+//         let newPipe = {
+//             x: canvas.width,
+//             width: 60,
+//             top: pipeHeight,
+//             bottomY: pipeHeight + gap,
+//             bottom: canvas.height - (pipeHeight + gap),
+//             passed: false
+//         };
+//         pipes.push(newPipe);
+
+//         spawnCollectible(newPipe);
+//     }
+
+//     pipes.forEach(pipe => {
+//         pipe.x -= 2.5 * speedFactor;
+//         if (
+//             bird.x < pipe.x + pipe.width &&
+//             bird.x + bird.width > pipe.x &&
+//             (bird.y < pipe.top || bird.y + bird.height > pipe.bottomY)
+//         ) {
+//             endGame();
+//         }
+//         if (!pipe.passed && pipe.x + pipe.width < bird.x) {
+//             try {
+//                 pipeSound.currentTime = 0;
+//                 pipeSound.play();
+//             } catch (e) {
+//                 console.log("Sound error:", e);
+//             }
+
+//             score++;
+//             pipe.passed = true;
+//             scoreDisplay.innerText = "Score: " + score;
+//         }
+//     });
+
+//     pipes = pipes.filter(pipe => pipe.x + pipe.width > 0);
+
+//     collectibles.forEach((item, index) => {
+//         item.x -= 2.5 * speedFactor;
+//         if (
+//             bird.x < item.x + item.size &&
+//             bird.x + bird.width > item.x &&
+//             bird.y < item.y + item.size &&
+//             bird.y + bird.height > item.y
+//         ) {
+//             try {
+//                 collectSound.currentTime = 0;
+//                 collectSound.play();
+//             } catch (e) {
+//                 console.log("Sound error:", e);
+//             }
+
+//             collectedSBTs.push({
+//                 image: item.image,
+//                 collectedFrame: frame
+//             });
+
+//             if (!totalCollectedSBTs[item.image]) {
+//                 totalCollectedSBTs[item.image] = 0;
+//             }
+//             totalCollectedSBTs[item.image]++;
+
+//             collectionEffects.push({
+//                 image: item.image,
+//                 startX: item.x,
+//                 startY: item.y,
+//                 size: item.size,
+//                 startFrame: frame,
+//                 duration: 60
+//             });
+
+//             score += 5;
+//             collectibles.splice(index, 1);
+//             scoreDisplay.innerText = "Score: " + score;
+//         }
+//     });
+
+//     collectibles = collectibles.filter(item => item.x + item.size > 0);
+//     frame++;
+// }
+function resizeCanvas() {
+    const dpr = window.devicePixelRatio || 1; // Get the device pixel ratio
+
+    // Set the canvas size based on the device pixel ratio
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+
+    // Scale the canvas context to match the DPR
+    ctx.scale(dpr, dpr);
+
+    // Adjust CSS size to match the actual canvas size
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+}
+
 let lastTime = 0;
 
 function gameLoop(timestamp) {
@@ -258,11 +386,11 @@ function update(deltaTime) {
     }
 
     if (frame % 120 === 0) {
-        let gap = 250;
+        let gap = getPipeGap(); // Dynamic gap size
         let pipeHeight = Math.random() * (canvas.height / 2);
         let newPipe = {
             x: canvas.width,
-            width: 60,
+            width: getPipeWidth(), // Dynamic pipe width
             top: pipeHeight,
             bottomY: pipeHeight + gap,
             bottom: canvas.height - (pipeHeight + gap),
@@ -274,7 +402,7 @@ function update(deltaTime) {
     }
 
     pipes.forEach(pipe => {
-        pipe.x -= 2.5 * speedFactor;
+        pipe.x -= 2.5 * speedFactor; // Adjust pipe movement speed
         if (
             bird.x < pipe.x + pipe.width &&
             bird.x + bird.width > pipe.x &&
@@ -341,7 +469,6 @@ function update(deltaTime) {
     collectibles = collectibles.filter(item => item.x + item.size > 0);
     frame++;
 }
-
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBird();
