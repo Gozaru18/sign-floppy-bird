@@ -76,11 +76,14 @@ let collectedSBTs = []; // Array to store collected SBTs for display
 let totalCollectedSBTs = {}; // Object to track the count of each SBT type collected
 
 function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    ctx.scale(dpr, dpr); // Scale for high-DPI screens
 }
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
+
+// window.addEventListener("resize", resizeCanvas);
+// resizeCanvas();
 
 
 const bird = { x: 50, y: canvas.height / 2, width: 50, height: 50, gravity: 0.6, lift: -12, velocity: 0 };
@@ -463,9 +466,10 @@ function flapBird() {
 document.addEventListener("keydown", flapBird);
 canvas.addEventListener("click", flapBird);
 canvas.addEventListener("touchstart", function (e) {
-    e.preventDefault();
+    e.preventDefault(); // Prevent double taps
     flapBird();
-});
+}, { passive: false });
+
 
 startButton.addEventListener("click", () => {
     gameStarted = true;
