@@ -295,7 +295,7 @@
         }
 
         pipes.forEach(pipe => {
-            pipe.x -= 1.5; // Slower pipe movement
+            pipe.x -= 2; // Slower pipe movement
             if (
                 bird.x < pipe.x + pipe.width &&
                 bird.x + bird.width > pipe.x &&
