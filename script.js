@@ -9,7 +9,12 @@
         let selectedAvatar = "images/sign.jpg";
 
         // Detect if the user is on a mobile device
-      
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+        // Game parameters adjusted for mobile
+        const pipeSpeed = isMobile ? 1.5 : 2.5; // Slower pipe speed on mobile
+        const birdGravity = isMobile ? 0.4 : 0.6; // Lower gravity on mobile
+        const birdLift = isMobile ? -10 : -12; // Slightly less lift on mobile
 
         // Audio elements
         const pipeSound = new Audio("pipe.mp3"); // Add a pipe sound file to your project
