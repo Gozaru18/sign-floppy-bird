@@ -262,7 +262,7 @@ function update(deltaTime) {
         let pipeHeight = Math.random() * (canvas.height / 2);
         let newPipe = {
             x: canvas.width,
-            width: 60,
+            width: 80,
             top: pipeHeight,
             bottomY: pipeHeight + gap,
             bottom: canvas.height - (pipeHeight + gap),
