@@ -247,22 +247,46 @@
             (frame - effect.startFrame) <= effect.duration);
     }
 
-    function spawnCollectible(pipe) {
-        if (score < nextSpawnThreshold) return;
+    // function spawnCollectible(pipe) {
+    //     if (score < nextSpawnThreshold) return;
 
-        const centerY = pipe.bottomY - (pipe.bottomY - pipe.top) / 2;
-        const randomY = pipe.top + Math.random() * (pipe.bottomY - pipe.top - 80);
+    //     const centerY = pipe.bottomY - (pipe.bottomY - pipe.top) / 2;
+    //     const randomY = pipe.top + Math.random() * (pipe.bottomY - pipe.top - 80);
 
-        collectibles.push({
-            x: pipe.x + pipe.width + 20,
-            y: centerY,
-            size: 80,
-            image: collectibleImageNames[Math.floor(Math.random() * collectibleImageNames.length)]
-        });
+    //     collectibles.push({
+    //         x: pipe.x + pipe.width + 20,
+    //         y: centerY,
+    //         size: 80,
+    //         image: collectibleImageNames[Math.floor(Math.random() * collectibleImageNames.length)]
+    //     });
 
-        comboCounter++;
-        nextSpawnThreshold += 10;
-    }
+    //     comboCounter++;
+    //     nextSpawnThreshold += 10;
+    // }
+
+
+// start
+function spawnCollectible(pipe) {
+    if (score < nextSpawnThreshold) return;
+
+    const centerY = pipe.bottomY - (pipe.bottomY - pipe.top) / 2;
+    const randomY = pipe.top + Math.random() * (pipe.bottomY - pipe.top - 80);
+
+    collectibles.push({
+        x: pipe.x + pipe.width / 2, // Fixed position relative to the pipe
+        y: centerY, // Fixed position relative to the pipe
+        size: 80,
+        image: collectibleImageNames[Math.floor(Math.random() * collectibleImageNames.length)]
+    });
+
+    comboCounter++;
+    nextSpawnThreshold += 10;
+}
+//end
+
+
+
+
 
     // function update() {
     //     if (gameOver) return;
