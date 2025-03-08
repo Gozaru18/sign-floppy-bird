@@ -476,6 +476,11 @@ function update(deltaTime) {
     collectibles = collectibles.filter(item => item.x + item.size > 0);
     frame++;
 }
+
+console.log("Canvas width:", canvas.width, "Canvas height:", canvas.height);
+console.log("Pipe gap:", getPipeGap(), "Pipe width:", getPipeWidth());
+
+
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBird();
