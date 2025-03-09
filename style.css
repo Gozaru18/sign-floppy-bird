@@ -166,6 +166,9 @@ body {
             margin-right: 5px;
         }
 
+         .made {
+            font-size: 7px;
+         }
         a {
             text-decoration: none;
             color: #0c0d0c;
