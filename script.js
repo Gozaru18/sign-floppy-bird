@@ -371,7 +371,7 @@
     }
 
     let lastTime = 0;
-    const frameRate = 60; // Target frame rate (30 FPS)
+    const frameRate = 120; // Target frame rate (30 FPS)
 
     function gameLoop(timestamp) {
         if (!gameOver) {
