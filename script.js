@@ -15,8 +15,8 @@
     let selectedAvatar = "images/sign.jpg";
 
     // Audio elements
-    const pipeSound = new Audio("pipe.mp3");
-    const collectSound = new Audio("collect.mp3");
+    const pipeSound = new Audio("sound/pipe.mp3");
+    const collectSound = new Audio("sound/collect.mp3");
 
     // Preload all images
     const avatarImages = {};
