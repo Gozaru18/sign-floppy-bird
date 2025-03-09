@@ -121,7 +121,7 @@ const birdDesktop = {
     width: 50,
     height: 50,
     gravity: 0.6, // Default gravity for desktop
-    lift: -6, // Default lift for desktop
+    lift: -10, // Default lift for desktop
     velocity: 0
 };
 
