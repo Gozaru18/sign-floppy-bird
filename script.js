@@ -139,7 +139,7 @@ const bird = {
     width: 50,
     height: 50,
     gravity: isMobileDevice() ? 0.3 : 0.4, // Slightly higher gravity in desktop mode
-    lift: isMobileDevice() ? -10 : -12, // Stronger lift in desktop mode
+    lift: isMobileDevice() ? -9 : -7, // Stronger lift in desktop mode
     velocity: 0
 };
 //end testing
