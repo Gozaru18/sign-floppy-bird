@@ -33,7 +33,8 @@
         "images/tokentable.jpg": "images/tokentable-transparent.png",
         "images/lodi.jpg": "images/lodi-transparent.png",
         "images/lodi1.jpg": "images/lodi1-transparent.png",
-        "images/lodi2.jpg": "images/lodi2-transparent.png"
+        "images/lodi2.jpg": "images/lodi2-transparent.png",
+         "images/hari.jpg": "images/hari-transparent.png"
     };
 
     // Preload images
