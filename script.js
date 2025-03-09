@@ -122,27 +122,15 @@
     resizeCanvas();
 
     // Adjust game mechanics for mobile
-    // const bird = {
-    //     x: 50,
-    //     y: canvas.height / 2,
-    //     width: 50,
-    //     height: 50,
-    //     gravity: isMobileDevice() ? 0.4 : 0.6, // Reduced gravity
-    //     lift: isMobileDevice() ? -8 : -6, // Reduced lift
-    //     velocity: 0
-    // };
-
-//start testing
-const bird = {
-    x: 50,
-    y: canvas.height / 2,
-    width: 50,
-    height: 50,
-    gravity: isMobileDevice() ? 0.3 : 0.4, // Slightly higher gravity in desktop mode
-    lift: isMobileDevice() ? -9 : -7, // Stronger lift in desktop mode
-    velocity: 0
-};
-//end testing
+    const bird = {
+        x: 50,
+        y: canvas.height / 2,
+        width: 50,
+        height: 50,
+        gravity: isMobileDevice() ? 0.4 : 0.6, // Reduced gravity
+        lift: isMobileDevice() ? -8 : -6, // Reduced lift
+        velocity: 0
+    };
 
 
 
@@ -500,51 +488,24 @@ const bird = {
         window.open(tweetUrl, "_blank");
     }
 
-    // Add touch and click support start here
-    // function flapBird() {
-    //     if (gameStarted) bird.velocity = bird.lift;
-    // }
-
-    // document.addEventListener("keydown", flapBird);
-    // canvas.addEventListener("click", flapBird);
-    // canvas.addEventListener("touchstart", function (e) {
-    //     e.preventDefault();
-    //     flapBird();
-    // });
-
-// function flapBird() {
-//     if (gameStarted) {
-//         bird.velocity = bird.lift;
-//     }
-// }
-
-// end here
-
-//start testing
-
-let lastTapTime = 0;
-    const tapDelay = 300; // 200ms delay between taps
-
+    // Add touch and click support
     function flapBird() {
-        const now = Date.now();
-        if (gameStarted && now - lastTapTime > tapDelay) {
-            bird.velocity = bird.lift;
-            lastTapTime = now;
-        }
+        if (gameStarted) bird.velocity = bird.lift;
     }
 
-    // Add touch and click support
     document.addEventListener("keydown", flapBird);
     canvas.addEventListener("click", flapBird);
     canvas.addEventListener("touchstart", function (e) {
         e.preventDefault();
-        console.log("Touch event detected"); // Debugging
         flapBird();
     });
 
+function flapBird() {
+    if (gameStarted) {
+        bird.velocity = bird.lift;
+    }
+}
 
-
-//end testing
 
 
 
