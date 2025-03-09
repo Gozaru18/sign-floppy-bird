@@ -93,16 +93,6 @@
     resizeCanvas();
 
     // Adjust game mechanics for mobile
-    // const bird = {
-    //     x: 50,
-    //     y: canvas.height / 2,
-    //     width: 50,
-    //     height: 50,
-    //     gravity: isMobileDevice() ? 0.4 : 0.6, // Reduced gravity
-    //     lift: isMobileDevice() ? -8 : -6, // Reduced lift
-    //     velocity: 0
-    // };
-//start testing
 // Mobile configuration
 const birdMobile = {
     x: 50,
@@ -127,7 +117,6 @@ const birdDesktop = {
 
 // Select the appropriate configuration based on the device
 const bird = isMobileDevice() ? birdMobile : birdDesktop;
-//end here testing
 
 
     let pipes = [];
@@ -336,51 +325,6 @@ function spawnCollectible(pipe) {
 
         pipes = pipes.filter(pipe => pipe.x + pipe.width > 0);
 
-    //     collectibles.forEach((item, index) => {
-    //         // item.x -= 0.1; // Slower collectible movement
-    //         if (
-    //             bird.x < item.x + item.size &&
-    //             bird.x + bird.width > item.x &&
-    //             bird.y < item.y + item.size &&
-    //             bird.y + bird.height > item.y
-    //         ) {
-    //             try {
-    //                 collectSound.currentTime = 0;
-    //                 collectSound.play();
-    //             } catch (e) {
-    //                 console.log("Sound error:", e);
-    //             }
-
-    //             collectedSBTs.push({
-    //                 image: item.image,
-    //                 collectedFrame: frame
-    //             });
-
-    //             if (!totalCollectedSBTs[item.image]) {
-    //                 totalCollectedSBTs[item.image] = 0;
-    //             }
-    //             totalCollectedSBTs[item.image]++;
-
-    //             collectionEffects.push({
-    //                 image: item.image,
-    //                 startX: item.x,
-    //                 startY: item.y,
-    //                 size: item.size,
-    //                 startFrame: frame,
-    //                 duration: 60
-    //             });
-
-    //             score += 5;
-    //             collectibles.splice(index, 1);
-    //             scoreDisplay.innerText = "Score: " + score;
-    //         }
-    //     });
-
-    //     collectibles = collectibles.filter(item => item.x + item.size > 0);
-    //     frame++;
-    // }
-
-//start test
        collectibles.forEach((item, index) => {
                 item.x -= 2.5;
                 if (
@@ -428,8 +372,7 @@ function spawnCollectible(pipe) {
             collectibles = collectibles.filter(item => item.x + item.size > 0);
             frame++;
         }
-//end test
-        
+
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBird();
