@@ -317,7 +317,7 @@ const bird = isMobileDevice() ? birdMobile : birdDesktop;
         pipes = pipes.filter(pipe => pipe.x + pipe.width > 0);
 
         collectibles.forEach((item, index) => {
-            item.x -= 0.1; // Slower collectible movement
+            // item.x -= 0.1; // Slower collectible movement
             if (
                 bird.x < item.x + item.size &&
                 bird.x + bird.width > item.x &&
