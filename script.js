@@ -316,50 +316,70 @@ const bird = isMobileDevice() ? birdMobile : birdDesktop;
 
         pipes = pipes.filter(pipe => pipe.x + pipe.width > 0);
 
+    //     collectibles.forEach((item, index) => {
+    //         // item.x -= 0.1; // Slower collectible movement
+    //         if (
+    //             bird.x < item.x + item.size &&
+    //             bird.x + bird.width > item.x &&
+    //             bird.y < item.y + item.size &&
+    //             bird.y + bird.height > item.y
+    //         ) {
+    //             try {
+    //                 collectSound.currentTime = 0;
+    //                 collectSound.play();
+    //             } catch (e) {
+    //                 console.log("Sound error:", e);
+    //             }
+
+    //             collectedSBTs.push({
+    //                 image: item.image,
+    //                 collectedFrame: frame
+    //             });
+
+    //             if (!totalCollectedSBTs[item.image]) {
+    //                 totalCollectedSBTs[item.image] = 0;
+    //             }
+    //             totalCollectedSBTs[item.image]++;
+
+    //             collectionEffects.push({
+    //                 image: item.image,
+    //                 startX: item.x,
+    //                 startY: item.y,
+    //                 size: item.size,
+    //                 startFrame: frame,
+    //                 duration: 60
+    //             });
+
+    //             score += 5;
+    //             collectibles.splice(index, 1);
+    //             scoreDisplay.innerText = "Score: " + score;
+    //         }
+    //     });
+
+    //     collectibles = collectibles.filter(item => item.x + item.size > 0);
+    //     frame++;
+    // }
+
+//start test
         collectibles.forEach((item, index) => {
-            // item.x -= 0.1; // Slower collectible movement
-            if (
-                bird.x < item.x + item.size &&
-                bird.x + bird.width > item.x &&
-                bird.y < item.y + item.size &&
-                bird.y + bird.height > item.y
-            ) {
-                try {
-                    collectSound.currentTime = 0;
-                    collectSound.play();
-                } catch (e) {
-                    console.log("Sound error:", e);
-                }
+        item.x -= 2.5;
+        if (
+            bird.x < item.x + item.size &&
+            bird.x + bird.width > item.x &&
+            bird.y < item.y + item.size &&
+            bird.y + bird.height > item.y
+        ) {
+            score += 5;
+            collectibles.splice(index, 1);
+            scoreDisplay.innerText = "Score: " + score;
+        }
+    });
 
-                collectedSBTs.push({
-                    image: item.image,
-                    collectedFrame: frame
-                });
-
-                if (!totalCollectedSBTs[item.image]) {
-                    totalCollectedSBTs[item.image] = 0;
-                }
-                totalCollectedSBTs[item.image]++;
-
-                collectionEffects.push({
-                    image: item.image,
-                    startX: item.x,
-                    startY: item.y,
-                    size: item.size,
-                    startFrame: frame,
-                    duration: 60
-                });
-
-                score += 5;
-                collectibles.splice(index, 1);
-                scoreDisplay.innerText = "Score: " + score;
-            }
-        });
-
-        collectibles = collectibles.filter(item => item.x + item.size > 0);
-        frame++;
-    }
-
+    collectibles = collectibles.filter(item => item.x + item.size > 0);
+    frame++;
+}
+//end test
+        
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawBird();
