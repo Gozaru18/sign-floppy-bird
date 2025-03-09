@@ -78,7 +78,7 @@
     let totalCollectedSBTs = {};
 
     // Adjust canvas size for mobile devices
-   function resizeCanvas() {
+    function resizeCanvas() {
         if (isMobileDevice()) {
             // Always use mobile view on mobile devices
             canvas.width = window.innerWidth * 0.9;
@@ -99,13 +99,10 @@
         y: canvas.height / 2,
         width: 50,
         height: 50,
-        gravity: isMobileDevice() ? 0.4 : 0.6, // Reduced gravity
-        lift: isMobileDevice() ? -8 : -6, // Reduced lift
+        gravity: isMobileDevice() ? 0.3 : 0.5, // Reduced gravity for mobile
+        lift: isMobileDevice() ? -9 : -7, // Reduced lift for mobile
         velocity: 0
     };
-
-
-
 
     let pipes = [];
     let collectibles = [];
@@ -238,6 +235,7 @@
         comboCounter++;
         nextSpawnThreshold += 10;
     }
+
     function update() {
         if (gameOver) return;
 
@@ -253,7 +251,7 @@
         }
 
         if (frame % 120 === 0) {
-            let gap = 250; // Increased gap for easier gameplay
+            let gap = 300; // Larger gap for easier gameplay
             let pipeHeight = Math.random() * (canvas.height / 2);
             let newPipe = {
                 x: canvas.width,
@@ -269,7 +267,7 @@
         }
 
         pipes.forEach(pipe => {
-            pipe.x -= 2.5; // Slower pipe movement
+            pipe.x -= 1.5; // Slower pipe movement
             if (
                 bird.x < pipe.x + pipe.width &&
                 bird.x + bird.width > pipe.x &&
@@ -294,7 +292,7 @@
         pipes = pipes.filter(pipe => pipe.x + pipe.width > 0);
 
         collectibles.forEach((item, index) => {
-            item.x -= 0.1; // Slower collectible movement
+            item.x -= 1.5; // Slower collectible movement
             if (
                 bird.x < item.x + item.size &&
                 bird.x + bird.width > item.x &&
@@ -472,22 +470,6 @@
         flapBird();
     });
 
-function flapBird() {
-    if (gameStarted) {
-        bird.velocity = bird.lift;
-    }
-}
-
-
-
-
-// Add touch and click support
-document.addEventListener("keydown", flapBird);
-canvas.addEventListener("click", flapBird);
-canvas.addEventListener("touchstart", function (e) {
-    e.preventDefault(); // Prevent default touch behavior
-    flapBird();
-});
     startButton.addEventListener("click", () => {
         gameStarted = true;
         gameOver = false;
