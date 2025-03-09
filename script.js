@@ -139,7 +139,7 @@ const bird = {
     width: 50,
     height: 50,
     gravity: isMobileDevice() ? 0.3 : 0.4, // Slightly higher gravity in desktop mode
-    lift: isMobileDevice() ? -11 : -7, // Stronger lift in desktop mode
+    lift: isMobileDevice() ? -9 : -7, // Stronger lift in desktop mode
     velocity: 0
 };
 //end testing
@@ -523,7 +523,7 @@ const bird = {
 //start testing
 
 let lastTapTime = 0;
-    const tapDelay = 200; // 200ms delay between taps
+    const tapDelay = 300; // 200ms delay between taps
 
     function flapBird() {
         const now = Date.now();
