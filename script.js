@@ -93,15 +93,42 @@
     resizeCanvas();
 
     // Adjust game mechanics for mobile
-    const bird = {
-        x: 50,
-        y: canvas.height / 2,
-        width: 50,
-        height: 50,
-        gravity: isMobileDevice() ? 0.4 : 0.6, // Reduced gravity
-        lift: isMobileDevice() ? -8 : -6, // Reduced lift
-        velocity: 0
-    };
+    // const bird = {
+    //     x: 50,
+    //     y: canvas.height / 2,
+    //     width: 50,
+    //     height: 50,
+    //     gravity: isMobileDevice() ? 0.4 : 0.6, // Reduced gravity
+    //     lift: isMobileDevice() ? -8 : -6, // Reduced lift
+    //     velocity: 0
+    // };
+//start testing
+// Mobile configuration
+const birdMobile = {
+    x: 50,
+    y: canvas.height / 2,
+    width: 50,
+    height: 50,
+    gravity: 0.4, // Reduced gravity for mobile
+    lift: -8, // Reduced lift for mobile
+    velocity: 0
+};
+
+// Desktop configuration
+const birdDesktop = {
+    x: 50,
+    y: canvas.height / 2,
+    width: 50,
+    height: 50,
+    gravity: 0.6, // Default gravity for desktop
+    lift: -6, // Default lift for desktop
+    velocity: 0
+};
+
+// Select the appropriate configuration based on the device
+const bird = isMobileDevice() ? birdMobile : birdDesktop;
+//end here testing
+
 
     let pipes = [];
     let collectibles = [];
