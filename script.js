@@ -245,22 +245,42 @@ const bird = isMobileDevice() ? birdMobile : birdDesktop;
             (frame - effect.startFrame) <= effect.duration);
     }
 
-    function spawnCollectible(pipe) {
-        if (score < nextSpawnThreshold) return;
+    // function spawnCollectible(pipe) {
+    //     if (score < nextSpawnThreshold) return;
 
-        const centerY = pipe.bottomY - (pipe.bottomY - pipe.top) / 2;
-        const randomY = pipe.top + Math.random() * (pipe.bottomY - pipe.top - 80);
+    //     const centerY = pipe.bottomY - (pipe.bottomY - pipe.top) / 2;
+    //     const randomY = pipe.top + Math.random() * (pipe.bottomY - pipe.top - 80);
 
-        collectibles.push({
-            x: pipe.x + pipe.width + 20,
-            y: centerY,
-            size: 80,
-            image: collectibleImageNames[Math.floor(Math.random() * collectibleImageNames.length)]
-        });
+    //     collectibles.push({
+    //         x: pipe.x + pipe.width + 20,
+    //         y: centerY,
+    //         size: 80,
+    //         image: collectibleImageNames[Math.floor(Math.random() * collectibleImageNames.length)]
+    //     });
 
-        comboCounter++;
-        nextSpawnThreshold += 10;
-    }
+    //     comboCounter++;
+    //     nextSpawnThreshold += 10;
+    // }
+
+
+//start test
+function spawnCollectible(pipe) {
+    if (score < nextSpawnThreshold) return;
+
+    const centerY = pipe.bottomY - (pipe.bottomY - pipe.top) / 2;
+    const randomY = pipe.top + Math.random() * (pipe.bottomY - pipe.top - 80);
+
+    collectibles.push({
+        x: canvas.width / 2, // Fixed x position (center of the canvas)
+        y: centerY, // Spawn in the center of the pipe gap
+        size: 80,
+        image: collectibleImageNames[Math.floor(Math.random() * collectibleImageNames.length)]
+    });
+
+    comboCounter++;
+    nextSpawnThreshold += 10;
+}
+//end test
     function update() {
         if (gameOver) return;
 
@@ -368,11 +388,37 @@ const bird = isMobileDevice() ? birdMobile : birdDesktop;
             bird.x + bird.width > item.x &&
             bird.y < item.y + item.size &&
             bird.y + bird.height > item.y
-        ) {
-            score += 5;
-            collectibles.splice(index, 1);
-            scoreDisplay.innerText = "Score: " + score;
-        }
+                ) {
+                try {
+                    collectSound.currentTime = 0;
+                    collectSound.play();
+                } catch (e) {
+                    console.log("Sound error:", e);
+                }
+
+                collectedSBTs.push({
+                    image: item.image,
+                    collectedFrame: frame
+                });
+
+                if (!totalCollectedSBTs[item.image]) {
+                    totalCollectedSBTs[item.image] = 0;
+                }
+                totalCollectedSBTs[item.image]++;
+
+                collectionEffects.push({
+                    image: item.image,
+                    startX: item.x,
+                    startY: item.y,
+                    size: item.size,
+                    startFrame: frame,
+                    duration: 60
+                });
+
+                score += 5;
+                collectibles.splice(index, 1);
+                scoreDisplay.innerText = "Score: " + score;
+            }
     });
 
     collectibles = collectibles.filter(item => item.x + item.size > 0);
