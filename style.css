@@ -10,6 +10,8 @@ body {
             flex-direction: column;
             position: relative;
             touch-action: none;
+            font-family: 'Lexend', sans-serif;
+
         }
 
         canvas {
